@@ -39,15 +39,32 @@ namespace Treehouse.FitnessFrog.Controllers
             return View(entries);
         }
 
-        public ActionResult Add()
+                public ActionResult Add()
         {
-            return View();
+            Entry entry = new Entry()
+            {
+                Date = DateTime.Today.Date,
+                
+            };
+            ViewBag.ActivitiesSelectList = new SelectList(Data.Data.Activities, "Id", "Name");
+            return View(entry);
         }
 
-        [HttpPost]
-        public ActionResult Add(DateTime? date, int? activityId, double? duration, Entry.IntensityLevel? intensity, bool? exclude, string notes)
+        [ActionName("Add"), HttpPost]
+        public ActionResult AddPost(Entry entry)
         {
-           return View();
+            if (ModelState.IsValidField("Duration") && entry.Duration >= 0)
+            {
+                ModelState.AddModelError("Duration", "The Value of duration must be greater than 0");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _entriesRepository.AddEntry(entry);
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
 
 
