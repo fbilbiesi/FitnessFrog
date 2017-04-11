@@ -1,7 +1,7 @@
 ﻿(function ($) {
     var defaultOptions = {
         validClass: 'has-success',
-        errorClass: 'has-error',
+        errorClass: 'has-feedback',
         highlight: function (element, errorClass, validClass) {
             $(element).closest('.form-group')
                 .removeClass(validClass)
@@ -11,6 +11,7 @@
             $(element).closest('.form-group')
                 .removeClass(errorClass)
                 .addClass(validClass);
+            
         }
     };
 
